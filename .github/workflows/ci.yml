@@ -2,9 +2,9 @@ name: CI Pipeline
 
 on:
     push:
-        branches: [ main ]
+        branches: [ main homologation ]
     pull_request:
-        branches: [ main ]
+        branches: [ main homologation ]
 
 jobs:
     build:
@@ -26,6 +26,9 @@ jobs:
 
           - name: Run Linter
             run:  python -m flake8 .
+
+          - name: Setup mock database
+            run: python setup_database.py
 
           - name: Run tests
             run: python -m pytest

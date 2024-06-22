@@ -1,2 +1,5 @@
 flake8==3.9.2
 pytest==8.0.2
+Faker==8.10.3
+SQLAlchemy==1.4.22
+sqlalchemy-aurora-data-api==0.4.0
