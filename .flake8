@@ -3,5 +3,4 @@
 ignore =
 max-line-length =
 per-file-ignores =
-    __init__.py:F401
-    repository.py:E711
+    
