@@ -1,6 +1,6 @@
 from collections import namedtuple
-from core.src.domain.use_cases import CreateExampleUseCaseInterface
-from core.src.infra.repo import ExampleRepository
+from src.domain.use_cases import CreateExampleUseCaseInterface
+from src.infra.repo import ExampleRepository
 
 CreateExampleParameter = namedtuple(
     "CreateExampleParameter",
@@ -33,6 +33,7 @@ class CreateExampleUseCase(CreateExampleUseCaseInterface):
                 datetime_created=parameter.datetime_created,
                 datetime_updated=parameter.datetime_updated,
             )
+
             serialized_record = record._asdict()
             return self._render_response(True, serialized_record)
         except:

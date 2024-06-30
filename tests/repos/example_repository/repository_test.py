@@ -72,7 +72,7 @@ def test_example_repository_get(mock_entity, db_connection_handler):
 
     example_repository = ExampleRepository()
     data = example_repository.get_example(
-        id=mock_entity["id"], company_id=mock_entity["company_id"]
+        id=mock_entity["id"]
     )
 
     assert data.id == mock_entity["id"]

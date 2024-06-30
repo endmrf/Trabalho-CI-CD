@@ -195,7 +195,7 @@ class ExampleRepository(ExampleRepositoryInterface):
 
         return None
 
-    def get_example(self, id: str, company_id: str) -> Example:
+    def get_example(self, id: str) -> Example:
         """
         Retrieve Example by ID and company ID
         :param  - id: ID of the Example
@@ -208,7 +208,7 @@ class ExampleRepository(ExampleRepositoryInterface):
             try:
                 query_data = (
                     db_connection.session.query(ExampleModel).filter(
-                        ExampleModel.id == id, ExampleModel.company_id == company_id
+                        ExampleModel.id == id
                     )
                 ).first()
                 if query_data is not None:

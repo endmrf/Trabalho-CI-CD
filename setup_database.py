@@ -8,7 +8,6 @@ MODULE_PATH: str = "src"
 
 sys.path.append(os.path.dirname(MODULE_PATH))
 mname = os.path.splitext(os.path.basename(MODULE_PATH))[0]
-print("mname: ", mname)
 imported = importlib.import_module(mname)                       
 sys.path.pop()
 
