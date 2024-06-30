@@ -34,7 +34,9 @@ jobs:
             run: python -m pytest
           
           - name: Send Discord Notification
-            uses: rtCamp/action-discord-notify@v2
-            with:
-              webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
-              msg: "Build completed successfully!"
+            env:
+              DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+            run: |
+              curl -H "Content-Type: application/json" \
+              -d "{\"content\": \"Build completed successfully!\"}" \
+              $DISCORD_WEBHOOK_URL
