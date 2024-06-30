@@ -34,7 +34,7 @@ jobs:
             run: python -m pytest
           
           - name: Send Discord Notification
-            uses: Ilshidur/action-slack@v2
+            uses: rtCamp/action-discord-notify@v2
             with:
-              webhook-url: https://discord.com/api/webhooks/1256752114550440078/5JoEBkI2j52NiLpVjQDFaqwS5wwST1bdCIx8Yi5sz_EAxWfpbfz7-zSHp1exqdCEa-Sn
+              webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
               msg: "Build completed successfully!"
