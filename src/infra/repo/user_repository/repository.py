@@ -52,8 +52,8 @@ class UserRepository(UserRepositoryInterface):
             try:
                 id = str(uuid.uuid4())
                 entity_instance = UserModel(
-                    id=id, 
-                    created_at=created_at, 
+                    id=id,
+                    created_at=created_at,
                     cpf=cpf,
                     email=email,
                     last_name=last_name,
