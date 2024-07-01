@@ -1,6 +1,6 @@
 from collections import namedtuple
-from core.src.domain.use_cases import CreateExampleUseCaseInterface
-from core.src.infra.repo import ExampleRepository
+from src.domain.use_cases import CreateExampleUseCaseInterface
+from src.infra.repo import ExampleRepository
 
 CreateExampleParameter = namedtuple(
     "CreateExampleParameter",
