@@ -55,3 +55,11 @@ jobs:
               heroku_app_name: "nome-da-sua-aplicacao-no-heroku"
               heroku_email: ${{ secrets.HEROKU_EMAIL }}
               branch: main
+          
+          - name: Deploy to Render
+            env:
+              RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+            run: |
+              curl -fsSL https://cli.render.com/install.sh | bash
+              render login --api-key ${{ secrets.RENDER_API_KEY }}
+              render deploy --service-id srv-cq1j5dij1k6c739nm2b0
