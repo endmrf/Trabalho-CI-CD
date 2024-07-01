@@ -1,4 +1,4 @@
-from typing import NamedTuple 
+from typing import NamedTuple
 from src.domain.use_cases import UpdateUserUseCaseInterface
 from src.infra.repo import UserRepository
 

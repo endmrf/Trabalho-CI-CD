@@ -2,7 +2,7 @@ from typing import NamedTuple
 from src.domain.use_cases import GetUserUseCaseInterface
 from src.infra.repo import UserRepository
 
-class GetUserParameter(NamedTuple) :
+class GetUserParameter(NamedTuple):
     id: str
 
 
