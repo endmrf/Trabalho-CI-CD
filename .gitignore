@@ -22,3 +22,18 @@ htmlcov
 .env
 pytest.ini
 mock_data.db
+
+### Flask ###
+instance/*
+!instance/.gitignore
+.webassets-cache
+.env
+
+### Flask.Python Stack ###
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so

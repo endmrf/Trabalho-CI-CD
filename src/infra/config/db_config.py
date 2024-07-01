@@ -13,9 +13,7 @@ class DBConnectionHandler:
         self.cluster_arn = os.getenv("AURORA_CLUSTER_ARN")
         self.secret_arn = os.getenv("AURORA_SECRET_ARN")
         self.database_name = os.getenv("AURORA_DATABASE_NAME")
-        self.__connection_string: str = "postgresql+auroradataapi://:@/{}".format(
-            self.database_name
-        )
+        self.__connection_string = "sqlite:///mock_data.db"
 
         if self.___has_test_database_environment():
             self.__connection_string = str(os.getenv("TEST_DATABASE_CONNECTION"))
@@ -44,38 +42,22 @@ class DBConnectionHandler:
         env_var_name = "TEST_DATABASE_CONNECTION"
         return os.getenv(env_var_name) is not None and os.getenv(env_var_name)  # type: ignore
 
-    def get_engine(self, print_only=False):
+    def get_engine(self):
         """Return connection Engine
         :parram - None
         :return - engine connection to Database
         """
 
         if self.___is_aurora_serverless_available():
-            # Aurora RDS connection
-            engine = create_engine(
+            return create_engine(
                 self.__connection_string,
                 echo=self.log_enabled,
                 connect_args=dict(
                     aurora_cluster_arn=self.cluster_arn, secret_arn=self.secret_arn
                 ),
             )
-        elif print_only is False:
-            connection_string = f"{self.__connection_string}?"
-            if "sqlite" in connection_string:
-                connection_string += "check_same_thread=false"
-            engine = create_engine(connection_string, query_cache_size=0)
 
-        else:
-            # Mocking only
-            engine = create_engine(
-                self.__connection_string,
-                query_cache_size=0,
-                echo=self.log_enabled,
-                strategy="mock",
-                executor=self.metadata_dump,
-            )
-        self.engine = engine
-        return self.engine
+        return create_engine(self.__connection_string, echo=self.log_enabled)
 
     def __enter__(self):
         return self
