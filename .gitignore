@@ -21,7 +21,6 @@ venv
 htmlcov
 .env
 pytest.ini
-mock_data.db
 
 ### Flask ###
 instance/*
