@@ -1,6 +1,6 @@
 # routes.py
-from flask import Blueprint, request, jsonify
-from . import db
+from flask import Blueprint, request, jsonify, Response
+from prometheus_client import Counter, generate_latest
 from src.data.user.list_users import (
     ListUsersUseCase,
     ListUsersParameter
@@ -10,6 +10,7 @@ from src.data.user.get_user import GetUserUseCase, GetUserParameter
 from src.data.user.delete_user import DeleteUserUseCase, DeleteUserParameter
 from src.data.user.update_user import UpdateUserUseCase, UpdateUserParameter
 
+http_requests_total = Counter('http_requests_total', 'Total HTTP Requests', ['method', 'code'])
 bp = Blueprint('main', __name__)
 
 @bp.route('/users', methods=['GET'])
@@ -19,7 +20,8 @@ def get_users():
         name=request.args.get('name', ''),
     )
     response = use_case.proceed(parameter)
-    serialized = use_case.serialize(response)
+    serialized = use_case.serialize(response)        
+
     return jsonify(serialized)
 
 @bp.route('/users/<id>', methods=['GET'])
@@ -70,3 +72,7 @@ def delete_user(id):
     serialized = use_case.serialize(response)
     return jsonify(serialized), 204
 
+@bp.route('/metrics', methods=['GET'])
+def get_metrics():
+    http_requests_total.labels(method='get', code='200').inc()
+    return Response(generate_latest(), mimetype='text/plain')
