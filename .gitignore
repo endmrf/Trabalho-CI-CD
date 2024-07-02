@@ -15,7 +15,6 @@ test_package
 .pytest_cache
 venv
 .serverless
-*.db
 *.coverage
 .coverage
 htmlcov
