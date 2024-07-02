@@ -1,6 +1,6 @@
 # routes.py
 from flask import Blueprint, request, jsonify
-from . import db
+from prometheus_client import Counter
 from src.data.user.list_users import (
     ListUsersUseCase,
     ListUsersParameter
@@ -10,6 +10,7 @@ from src.data.user.get_user import GetUserUseCase, GetUserParameter
 from src.data.user.delete_user import DeleteUserUseCase, DeleteUserParameter
 from src.data.user.update_user import UpdateUserUseCase, UpdateUserParameter
 
+http_requests_total = Counter('http_requests_total', 'Total HTTP Requests', ['method', 'code'])
 bp = Blueprint('main', __name__)
 
 @bp.route('/users', methods=['GET'])
@@ -20,6 +21,10 @@ def get_users():
     )
     response = use_case.proceed(parameter)
     serialized = use_case.serialize(response)
+
+    if serialized["success"]:
+        http_requests_total.labels(method='get', code='200').inc()
+
     return jsonify(serialized)
 
 @bp.route('/users/<id>', methods=['GET'])
