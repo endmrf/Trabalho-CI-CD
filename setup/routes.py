@@ -39,8 +39,6 @@ def get_users():
     response = use_case.proceed(parameter)
     serialized = use_case.serialize(response)        
 
-    # increment_http_requests_total('GET', serialized["success"])
-
     return jsonify(serialized)
 
 @bp.route('/users/<id>', methods=['GET'])
@@ -49,8 +47,6 @@ def get_user(id):
     parameter = GetUserParameter(id=id)
     response = use_case.proceed(parameter)
     user = use_case.serialize(response)
-
-    # increment_http_requests_total('GET', user["success"])
 
     return jsonify(user)
 
@@ -66,8 +62,6 @@ def create_user():
     )
     response = use_case.proceed(parameter)
     new_user = use_case.serialize(response)
-
-    # increment_http_requests_total('POST', new_user["success"])
 
     return jsonify(new_user), 201
 
@@ -85,8 +79,6 @@ def update_user(id):
     response = use_case.proceed(parameter)
     user = use_case.serialize(response)
 
-    # increment_http_requests_total('PUT', user["success"])
-
     return jsonify(user)
 
 @bp.route('/users/<id>', methods=['DELETE'])
@@ -95,8 +87,6 @@ def delete_user(id):
     parameter = DeleteUserParameter(id=id)
     response = use_case.proceed(parameter)
     serialized = use_case.serialize(response)
-
-    # increment_http_requests_total('DELETE', serialized["success"])
 
     return jsonify(serialized), 204
 
@@ -118,9 +108,13 @@ def start_timer():
 
 @bp.after_request
 def record_request_data(response):
-    print("CODE:", response.status_code)
     request_latency = time.time() - request.start_time
     http_requests_total.labels(request.method, request.path, response.status_code).inc()
     http_request_duration_seconds.labels(request.method, request.path).observe(request_latency)
     http_response_size_bytes.labels(request.method, request.path).observe(len(response.data))
     return response
+
+@bp.errorhandler(Exception)
+def handle_exception(e):
+    exceptions_total.labels(exception_type=type(e).__name__).inc()
+    return "An error occurred: {}".format(str(e)), 500
