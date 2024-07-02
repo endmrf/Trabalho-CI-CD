@@ -11,7 +11,7 @@ from src.data.user.delete_user import DeleteUserUseCase, DeleteUserParameter
 from src.data.user.update_user import UpdateUserUseCase, UpdateUserParameter
 import time
 
-http_requests_total = Counter('http_requests_total', 'Total HTTP Requests', ['method', 'code'])
+http_requests_total = Counter('http_requests_total', 'Total HTTP Requests', ['method', 'endpoint', 'http_status'])
 http_request_duration_seconds = Histogram('http_request_duration_seconds', 'HTTP request duration in seconds', ['method', 'endpoint'])
 http_response_size_bytes = Histogram('http_response_size_bytes', 'HTTP response size in bytes', ['method', 'endpoint'])
 exceptions_total = Counter('exceptions_total', 'Total exceptions raised', ['exception_type'])
@@ -118,6 +118,7 @@ def start_timer():
 
 @bp.after_request
 def record_request_data(response):
+    print("CODE:", response.status_code)
     request_latency = time.time() - request.start_time
     http_requests_total.labels(request.method, request.path, response.status_code).inc()
     http_request_duration_seconds.labels(request.method, request.path).observe(request_latency)
