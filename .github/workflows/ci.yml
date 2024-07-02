@@ -51,7 +51,4 @@ jobs:
           - name: Deploy to Render
             env:
               RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
-            run: |
-              curl -fsSL https://cli.render.com/install.sh | bash
-              render services update srv-cq1j5dij1k6c739nm2b0 --env.add RENDER_API_KEY=${{ secrets.RENDER_API_KEY }}
-              render deploy --service-id srv-cq1j5dij1k6c739nm2b0
+            run: render deploy --service-id srv-cq1j5dij1k6c739nm2b0
