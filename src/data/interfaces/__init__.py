@@ -1,2 +1,1 @@
-from .example_repository_interface import ExampleRepositoryInterface
 from .user_repository_interface import UserRepositoryInterface
