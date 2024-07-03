@@ -1,5 +1,6 @@
 # routes.py
 from flask import Blueprint, request, jsonify, Response
+from flask_cors import CORS
 from prometheus_client import Counter, generate_latest, Histogram, Gauge
 from src.data.user.list_users import (
     ListUsersUseCase,
@@ -20,6 +21,7 @@ app_uptime_seconds = Gauge('app_uptime_seconds', 'Application uptime in seconds'
 app_uptime_seconds.set_function(lambda: time.time() - start_time)
 
 bp = Blueprint('main', __name__)
+CORS(bp)
 
 @bp.route('/', methods=['GET'])
 def index():
