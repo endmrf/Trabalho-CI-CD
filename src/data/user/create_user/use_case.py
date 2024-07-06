@@ -8,7 +8,7 @@ class CreateUserParameter(NamedTuple):
     last_name: str
     cpf: str
 
-
+ 
 
 class CreateUserUseCase(CreateUserUseCaseInterface):
     """
