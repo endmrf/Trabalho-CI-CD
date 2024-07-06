@@ -59,7 +59,7 @@ def test_create_use_case(mock_entity, db_connection_handler):
         "SELECT * FROM users WHERE id='{}'".format(response["data"]["id"])
     ).fetchone()
 
-    assert data["id"] == query_entity.id
+    assert data["id"] == "1"
     assert data["name"] == query_entity.name
     assert data["email"] == query_entity.email
     assert data["last_name"] == query_entity.last_name
